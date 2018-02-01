@@ -9,4 +9,13 @@
     <string name="Password">Mot de passe</string>
     <string name="enter_pw"> </string>
 
+    <string name="CheckBox">Case à cocher</string>
+    <string name="RadioButton">Bouton radio</string>
+    <string name="Switch">Qu\'est-ce que ça fait?</string>
+
+    <string name="dialog_title">Fin?</string>
+    <string name="dialog_message">Terminer l\'activité?</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Annuler</string>
+
 </resources>
