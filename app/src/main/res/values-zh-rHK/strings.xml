@@ -1,8 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">AndroidLabs</string>
-    <string name="hello_message">Nay Ho!</string>
-    <string name="ButtonText">wo shi yi ge dai ping guo</string>
+    <string name="hello_message">世界，你好!</string>
+    <string name="ButtonText">按鍵</string>
+    <string name="chatText">開始聊天</string>
+
+    <string name="Login">登錄</string>
+    <string name="login_name">登錄名</string>
+    <string name="Password">密碼d</string>
+    <string name="enter_pw"> </string>
+
+    <string name="CheckBox">複選框</string>
+    <string name="RadioButton">單選按鈕</string>
+    <string name="Switch">這是做什麼的？</string>
+
+    <string name="dialog_title">完了?</string>
+    <string name="dialog_message">完成活動?</string>
+    <string name="ok">完</string>
+    <string name="cancel">取消</string>
 
 
 </resources>
