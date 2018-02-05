@@ -3,7 +3,6 @@
     <string name="app_name">AndroidLabs</string>
     <string name="hello_message">世界，你好!</string>
     <string name="ButtonText">按鍵</string>
-    <string name="chatText">開始聊天</string>
 
     <string name="Login">登錄</string>
     <string name="login_name">登錄名</string>
@@ -18,6 +17,10 @@
     <string name="dialog_message">完成活動?</string>
     <string name="ok">完</string>
     <string name="cancel">取消</string>
+
+    <string name="chatText">開始聊天</string>
+    <string name="sendBtn">發送</string>
+
 
 
 </resources>

@@ -3,7 +3,7 @@
     <string name="app_name">AndroidLabs</string>
     <string name="hello_message">Bonjour!</string>
     <string name="ButtonText">Je suis un bouton</string>
-    <string name="chatText">démarrer la discussion</string>
+
 
     <string name="Login">S\'identifier</string>
     <string name="login_name">Identifiant</string>
@@ -19,4 +19,6 @@
     <string name="ok">OK</string>
     <string name="cancel">Annuler</string>
 
+    <string name="chatText">démarrer la discussion</string>
+    <string name="sendBtn">envoyer</string>
 </resources>

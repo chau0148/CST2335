@@ -33,8 +33,12 @@ public class StartActivity extends Activity {
             @Override
             public void onClick(View v) {
                 Log.i(ACTIVITY_NAME, "User clicked Start Chat");
+                Intent intent = new Intent(StartActivity.this, StartChat.class);
+                startActivity(intent);
+
             }
         });
+
     }
 
     @Override
@@ -73,6 +77,9 @@ public class StartActivity extends Activity {
         }
         if (responseCode == Activity.RESULT_OK){
             Log.i(ACTIVITY_NAME, "Returned Result OK");
+        }
+        if (data!= null && requestCode == 60){
+            Log.i(ACTIVITY_NAME, "In StartChat.java");
         }
         String messagePassed = data.getStringExtra("Response");
         Toast.makeText(this, messagePassed, Toast.LENGTH_LONG).show();
