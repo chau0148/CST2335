@@ -1,8 +1,13 @@
 package com.example.amychau.androidlabs;
 
 import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,15 +19,19 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import lab5.ChatDatabaseHelper;
+
 public class StartChat extends Activity {
 
     ListView list;
     EditText text;
     Button sendButton;
-    ArrayList<String> ar;
-    //ArrayAdapter<String> arAdapter;
+    ArrayList<String> ar = new ArrayList<>();
     ChatAdapter messageAdapter;
+    protected static final String ACTIVITY_NAME = "ChatWindow";
 
+    SQLiteDatabase db;
+    ChatDatabaseHelper dbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,31 +42,51 @@ public class StartChat extends Activity {
         text = (EditText) findViewById(R.id.editChat);
         sendButton = (Button) findViewById(R.id.sendButton);
 
-        ar = new ArrayList<>();
-//        arAdapter = new ArrayAdapter<String>(this, R.layout.activity_start_chat);
+        dbHelper = new ChatDatabaseHelper(this);
+
+       Cursor cursor = dbHelper.getData();
+        cursor.moveToFirst();
+        while(!cursor.isAfterLast()){
+            String newMessage = cursor.getString(cursor.getColumnIndex(dbHelper.KEY_MESSAGE));
+            ar.add(newMessage);
+            Log.i(ACTIVITY_NAME, "SQL MESSAGE: " + newMessage);
+            cursor.moveToNext();
+        }
+
+        //prints out the name of each colum returned by the cursor
+        for (int columnIndex = 0; columnIndex < cursor.getColumnCount(); columnIndex++){
+            cursor.getColumnName(columnIndex);
+            Log.i(ACTIVITY_NAME, "Cursor's column count = " +cursor.getColumnCount());
+        }
+
+        db = dbHelper.getWritableDatabase();
+
+        // Messages in the chat stored in an Arraylist
         messageAdapter = new ChatAdapter(this);
-//        list.setAdapter(messageAdapter);
+        list.setAdapter(messageAdapter);
 
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // Puts the messahe content into an array and display it in the listView
                 String content = text.getText().toString();
                 ar.add(content);
                 list.setAdapter(messageAdapter);
                 messageAdapter.notifyDataSetChanged();
+
+                //Insert the new message into the database, contentValues object will put the new message
+                ContentValues contentValues = new ContentValues();
+                contentValues.put(dbHelper.KEY_MESSAGE, text.getText().toString());
+                long insertCheck = db.insert(dbHelper.TABLE_NAME, "null", contentValues);
+                Log.i("StartChat", "insert data result: " + insertCheck);
                 text.setText("");
             }
         });
-
-
     }
 
 
     private class ChatAdapter extends ArrayAdapter<String> {
-
         Context context;
-
-
         public ChatAdapter(Context ctx){
             super(ctx, 0);
         }
@@ -86,5 +115,12 @@ public class StartChat extends Activity {
         public long getId(int position){
             return position;
         }
+    }
+
+    @Override
+    protected void onDestroy(){
+        super.onDestroy();
+        dbHelper.close();
+        Log.i(ACTIVITY_NAME,  "In onDestroy()");
     }
 }
