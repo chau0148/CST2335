@@ -43,6 +43,7 @@ public class StartChat extends Activity {
         sendButton = (Button) findViewById(R.id.sendButton);
 
         dbHelper = new ChatDatabaseHelper(this);
+        db = dbHelper.getWritableDatabase();
 
        Cursor cursor = dbHelper.getData();
         cursor.moveToFirst();
@@ -58,9 +59,6 @@ public class StartChat extends Activity {
             cursor.getColumnName(columnIndex);
             Log.i(ACTIVITY_NAME, "Cursor's column count = " +cursor.getColumnCount());
         }
-
-        db = dbHelper.getWritableDatabase();
-
         // Messages in the chat stored in an Arraylist
         messageAdapter = new ChatAdapter(this);
         list.setAdapter(messageAdapter);

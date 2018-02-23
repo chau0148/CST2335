@@ -19,8 +19,8 @@ public class ChatDatabaseHelper extends SQLiteOpenHelper {
     public static final String KEY_ID = "_id";
 
     private static final String DB_CREATE = "CREATE TABLE " + TABLE_NAME + " ("
-                                            + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                                            + KEY_MESSAGE + " TEXT);";
+                                            + KEY_ID + " INTEGERS THAT AUTOINCREMENT, "
+                                            + KEY_MESSAGE + " MESSAGE);";
 
 
     public ChatDatabaseHelper(Context ctx){
