@@ -9,5 +9,8 @@ public class MessageDetails extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_message_details);
+
+
+
     }
 }

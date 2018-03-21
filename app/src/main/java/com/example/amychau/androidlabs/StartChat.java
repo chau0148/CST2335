@@ -28,6 +28,7 @@ public class StartChat extends Activity {
     Button sendButton;
     ArrayList<String> ar = new ArrayList<>();
     ChatAdapter messageAdapter;
+    Boolean checkLayout;
     protected static final String ACTIVITY_NAME = "ChatWindow";
 
     SQLiteDatabase db;
@@ -41,6 +42,19 @@ public class StartChat extends Activity {
         list = (ListView) findViewById(R.id.chatView);
         text = (EditText) findViewById(R.id.editChat);
         sendButton = (Button) findViewById(R.id.sendButton);
+        View frameLayout = findViewById(R.id.message_container);
+
+        if (frameLayout == null){
+            // Frame layout wasn't loaded and you are using the phone layout
+            frameLayout.setOnTouchListener((View.OnTouchListener) this);
+            setContentView(R.layout.activity_start_chat);
+        } else {
+            //Frame Layout was loaded and you are using the tablet layout,
+            // The screen is at least 600 pixels wide
+            frameLayout.setOnTouchListener((View.OnTouchListener) this);
+            setContentView(frameLayout);
+
+        }
 
         dbHelper = new ChatDatabaseHelper(this);
         db = dbHelper.getWritableDatabase();
@@ -66,7 +80,7 @@ public class StartChat extends Activity {
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Puts the messahe content into an array and display it in the listView
+                // Puts the message content into an array and display it in the listView
                 String content = text.getText().toString();
                 ar.add(content);
                 list.setAdapter(messageAdapter);
@@ -80,6 +94,8 @@ public class StartChat extends Activity {
                 text.setText("");
             }
         });
+
+       // list.setOnItemClickListener();
     }
 
 
@@ -113,6 +129,8 @@ public class StartChat extends Activity {
         public long getId(int position){
             return position;
         }
+
+        public long getItemId(int position){ return position; }
     }
 
     @Override
