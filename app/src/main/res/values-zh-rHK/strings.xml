@@ -21,6 +21,12 @@
     <string name="chatText">開始聊天</string>
     <string name="sendBtn">發送</string>
 
+    <string name="weather">天氣預報</string>
+
+    <string name="messageHere">消息</string>
+    <string name="idText">ID = </string>
+    <string name="deleteMessage">刪除此消息</string>
+
 
 
 </resources>

@@ -21,4 +21,10 @@
 
     <string name="chatText">démarrer la discussion</string>
     <string name="sendBtn">envoyer</string>
+
+    <string name="weather">Prévisions météo</string>
+
+    <string name="messageHere">Message ici</string>
+    <string name="idText">ID = </string>
+    <string name="deleteMessage">supprimer ce message</string>
 </resources>

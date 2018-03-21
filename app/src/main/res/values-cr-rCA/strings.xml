@@ -20,4 +20,10 @@
 
     <string name="chatText">Start Chat</string>
     <string name="sendBtn">Send</string>
+
+    <string name="weather">Weather Forecast</string>
+
+    <string name="messageHere">Message Here</string>
+    <string name="idText">ID = </string>
+    <string name="deleteMessage">Delete This Message</string>
 </resources>
