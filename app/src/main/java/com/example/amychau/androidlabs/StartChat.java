@@ -1,8 +1,11 @@
 package com.example.amychau.androidlabs;
 
 import android.app.Activity;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -11,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -44,16 +48,14 @@ public class StartChat extends Activity {
         sendButton = (Button) findViewById(R.id.sendButton);
         View frameLayout = findViewById(R.id.message_container);
 
-        if (frameLayout == null){
-            // Frame layout wasn't loaded and you are using the phone layout
-            frameLayout.setOnTouchListener((View.OnTouchListener) this);
-            setContentView(R.layout.activity_start_chat);
-        } else {
+        if (frameLayout != null){
             //Frame Layout was loaded and you are using the tablet layout,
             // The screen is at least 600 pixels wide
-            frameLayout.setOnTouchListener((View.OnTouchListener) this);
-            setContentView(frameLayout);
-
+            checkLayout = true;
+            Log.i(ACTIVITY_NAME, "Fragment Loaded");
+        } else {
+            checkLayout = false;
+            Log.i(ACTIVITY_NAME, "Fragment Not Loaded");
         }
 
         dbHelper = new ChatDatabaseHelper(this);
@@ -95,7 +97,38 @@ public class StartChat extends Activity {
             }
         });
 
-       // list.setOnItemClickListener();
+        final FragmentManager manager = getFragmentManager();
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Cursor cursor = dbHelper.getData();
+                //cursor.moveToFirst();
+                Log.e("pos",l+"");
+                cursor.moveToPosition((int)l);
+                long id = cursor.getLong(cursor.getColumnIndex(dbHelper.KEY_ID));
+                String message = cursor.getString(cursor.getColumnIndex(dbHelper.KEY_MESSAGE));
+                //long id = messageAdapter.getItemId((int) l);
+
+                if(checkLayout){
+                //Landscape
+                    Bundle bundle = new Bundle();
+                    bundle.putLong("id", id);
+                    bundle.putString("message", message);
+                    MessageFragment mfragment = new MessageFragment();
+                    mfragment.setArguments(bundle);
+                    FragmentTransaction transaction = manager.beginTransaction();
+                    transaction.replace(R.id.message_container, mfragment);
+                    transaction.commit();
+                }
+                else {
+                    //Goes to new activity created
+                    Intent intent = new Intent(StartChat.this, MessageDetails.class);
+                    intent.putExtra("id", id);
+                    intent.putExtra("message", message);
+                    startActivity(intent);
+                }
+            }}
+        );
     }
 
 
@@ -113,24 +146,22 @@ public class StartChat extends Activity {
             return ar.get(position);
         }
 
-        public View getView(int position, View convertView, ViewGroup parent){
+        public View getView(int position, View convertView, ViewGroup parent) {
             LayoutInflater inflater = StartChat.this.getLayoutInflater();
             View result = null;
-            if(position%2==0){
+            if (position % 2 == 0) {
                 result = inflater.inflate(R.layout.chat_row_incoming, null);
             } else
                 result = inflater.inflate(R.layout.chat_row_outgoing, null);
 
             TextView message = (TextView) result.findViewById(R.id.message_text);
-            message.setText(getItem(position));
+            final String messageTxt = getItem(position);
+            message.setText(messageTxt);
             return result;
         }
-
-        public long getId(int position){
-            return position;
-        }
-
-        public long getItemId(int position){ return position; }
+        @Override
+        public long getItemId(int position){
+            return position;}
     }
 
     @Override
@@ -138,5 +169,21 @@ public class StartChat extends Activity {
         super.onDestroy();
         dbHelper.close();
         Log.i(ACTIVITY_NAME,  "In onDestroy()");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Cursor cursor = dbHelper.getData();
+        cursor.moveToFirst();
+        ar.clear();
+        while(!cursor.isAfterLast()){
+            String newMessage = cursor.getString(cursor.getColumnIndex(dbHelper.KEY_MESSAGE));
+            ar.add(newMessage);
+            Log.i(ACTIVITY_NAME, "SQL MESSAGE: " + newMessage);
+            cursor.moveToNext();
+        }
+
+        messageAdapter.notifyDataSetChanged();
     }
 }

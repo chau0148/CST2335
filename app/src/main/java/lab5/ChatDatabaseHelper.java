@@ -19,8 +19,8 @@ public class ChatDatabaseHelper extends SQLiteOpenHelper {
     public static final String KEY_ID = "_id";
 
     private static final String DB_CREATE = "CREATE TABLE " + TABLE_NAME + " ("
-                                            + KEY_ID + " INTEGERS THAT AUTOINCREMENT, "
-                                            + KEY_MESSAGE + " MESSAGE);";
+                                            + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                                            + KEY_MESSAGE + " TEXT);";
 
 
     public ChatDatabaseHelper(Context ctx){
@@ -45,6 +45,14 @@ public class ChatDatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME, null);
         return cursor;
+    }
+
+    public void removeData(long id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("DELETE FROM " + TABLE_NAME + " WHERE " + KEY_ID + " = " + id);
+        //return db.delete(TABLE_NAME);
+
+
     }
 
 }

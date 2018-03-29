@@ -12,7 +12,7 @@
         android:layout_marginLeft="12dp"
         android:layout_marginRight="12dp"
         android:layout_marginTop="17dp"
-        android:text="@string/messageHere"/>
+        android:gravity="right"/>
 
     <TextView
         android:id="@+id/idText"
@@ -21,8 +21,7 @@
         android:layout_below="@+id/messageHere"
         android:layout_marginLeft="12dp"
         android:layout_marginRight="12dp"
-        android:layout_marginTop="20dp"
-        android:text="@string/idText" />
+        android:layout_marginTop="20dp"/>
 
     <Button
         android:id="@+id/deleteButton"
