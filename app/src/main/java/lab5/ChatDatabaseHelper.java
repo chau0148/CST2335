@@ -50,9 +50,6 @@ public class ChatDatabaseHelper extends SQLiteOpenHelper {
     public void removeData(long id){
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("DELETE FROM " + TABLE_NAME + " WHERE " + KEY_ID + " = " + id);
-        //return db.delete(TABLE_NAME);
-
-
     }
 
 }
