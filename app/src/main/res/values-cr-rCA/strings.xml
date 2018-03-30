@@ -26,4 +26,7 @@
     <string name="messageHere">Message Here</string>
     <string name="idText">ID = </string>
     <string name="deleteMessage">Delete This Message</string>
+
+    <string name="newMessage">New Message</string>
+
 </resources>

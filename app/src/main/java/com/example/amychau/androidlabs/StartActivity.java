@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 public class StartActivity extends Activity {
 
@@ -46,6 +47,13 @@ public class StartActivity extends Activity {
                 Intent intent = new Intent(StartActivity.this, WeatherForecast.class);
                 startActivity(intent);
             }
+        });
+
+        Button toolbarButton = findViewById(R.id.toolbar);
+        toolbarButton.setOnClickListener((v) -> {
+            Log.i(ACTIVITY_NAME, "User clicked Test Toolbar");
+            Intent intent = new Intent(StartActivity.this, TestToolbar.class);
+            startActivity(intent);
         });
     }
 

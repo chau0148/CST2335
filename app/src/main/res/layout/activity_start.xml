@@ -29,7 +29,6 @@
         android:id="@+id/chatButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="272dp"
         android:layout_marginTop="144dp"
         android:text="@string/chatText"
         />
@@ -42,4 +41,11 @@
         android:layout_marginTop="244dp"
        />
 
+    <Button
+        android:id="@+id/toolbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Test Toolbar"
+        android:layout_marginTop="344dp"
+        />
 </RelativeLayout>

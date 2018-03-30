@@ -27,6 +27,8 @@
     <string name="idText">ID = </string>
     <string name="deleteMessage">刪除此消息</string>
 
+    <string name="newMessage">新消息</string>
+
 
 
 </resources>
