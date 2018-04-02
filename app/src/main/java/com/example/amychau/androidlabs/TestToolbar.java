@@ -2,26 +2,38 @@ package com.example.amychau.androidlabs;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
 public class TestToolbar extends AppCompatActivity {
 
-
+    FloatingActionButton fab;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test_toolbar);
-
-
-
+        setSupportActionBar(findViewById(R.id.my_toolbar));
+        fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "Snackbar Here", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        });
     }
 
     public boolean onCreateOptionsMenu(Menu m){
@@ -34,6 +46,10 @@ public class TestToolbar extends AppCompatActivity {
         switch(mi.getItemId()){
             case R.id.action_one:
                 Log.d("Toolbar", "Option 1 selected");
+                SharedPreferences sharedPref = getSharedPreferences("newMessage", Context.MODE_PRIVATE);
+                String x = sharedPref.getString("newMessage", "");
+                Snackbar.make(fab, x, Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
                 break;
             case R.id.action_two:
                 Log.d("Toolbar", "Option 2 selected");
@@ -61,7 +77,9 @@ public class TestToolbar extends AppCompatActivity {
                 Log.d("Toolbar", "Option 3 selected");
                 AlertDialog.Builder build = new AlertDialog.Builder(TestToolbar.this);
                 LayoutInflater inflater = TestToolbar.this.getLayoutInflater();
-                build.setView(inflater.inflate(R.layout.custom_dialog, null))
+                View d = inflater.inflate(R.layout.custom_dialog, null);
+                EditText newMessage =  d.findViewById(R.id.newMessage) ;
+                build.setView(d)
                         .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
@@ -69,8 +87,13 @@ public class TestToolbar extends AppCompatActivity {
                                  * string entered will be the new message displayed by
                                  * the Snackbar object when selecting menu item 1
                                  */
+                                SharedPreferences sharedPref = getSharedPreferences("newMessage", Context.MODE_PRIVATE);
+                                SharedPreferences.Editor edit = sharedPref.edit();
+                                edit.putString("newMessage", newMessage.getText().toString());
+                                edit.apply();
                             }
                         });
+                build.show();
                 break;
             case R.id.action_four:
                 Log.d("Toolbar", "About Selected");
